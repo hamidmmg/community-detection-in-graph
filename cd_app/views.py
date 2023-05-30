@@ -2,7 +2,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import CsvFileSerializer
 import csv
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from .models import CsvFile
 from .calculate_comunitys import leiden
 from communityAPI import settings
@@ -19,16 +18,19 @@ class CsvUploadView(APIView):
         if file_serializer.is_valid():
             file_serializer.save()
             file = file_serializer.data.get('file')
+            num_of_best_nodes = file_serializer.data.get('num_of_best_nodes')
             file = str(file)
             file = file.replace("/", "", 1)
-            comms, nom_of_communitys = leiden(file)
-            svg_path = os.path.join(settings.BASE_DIR, 'images', 'myfile.svg')
-            best_nodes, community_with_best_nodes = calculate_best_nodes(file)
+            # comms, nom_of_communitys = leiden(file)
+            community_svg_path = os.path.join(settings.BASE_DIR, 'images', 'myfile.svg')
+            original_svg_path = os.path.join(settings.BASE_DIR, 'images', 'myfile_org.svg')
+            best_nodes, community_with_best_nodes, comms, nom_of_communitys = calculate_best_nodes(file, num_of_best_nodes)
             return Response([
   {
     "nodes with most influence :": best_nodes,
     "communitys have best nodes :": community_with_best_nodes,
-    "svg_src:": svg_path,
+    "svg_src:": community_svg_path,
+    "original_svg_src:": original_svg_path,
     "number of communitys": nom_of_communitys,
   }], status=201)
 

@@ -21,8 +21,12 @@ def leiden(file_path):
     # edge_labels = [l[1] for v, l in H.edges]
     vertex_labels = [u for u, v, l in H.edges(data='label')]
     target = 'images/myfile.svg'
+    target2 = 'images/myfile_org.svg'
     communities = h.community_leiden(objective_function='modularity')
+    # print(communities)
+    # print(len(communities))
     # plot = ig.plot(communities, edge_label=edge_labels, vertex_label=vertex_labels, target=target)
     plot = ig.plot(communities, vertex_label=vertex_labels, target=target)
-
-    return target, len(h.community_leiden(objective_function='modularity'))
+    plot = ig.plot(h, vertex_label=vertex_labels, target=target2)
+    # print(len(communities))
+    return communities, len(communities)

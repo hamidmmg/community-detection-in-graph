@@ -22,14 +22,14 @@ def unique(list1):
 
 def community_have_best_node(file_path, best_nodes):
     best_nodes = best_nodes
-    communities, count_of_community = leiden(file_path)
+    communities, count_of_community = leiden(file_path, best_nodes)
     best_communities = []
     for j in best_nodes:
         for i, community in enumerate(communities):
             if int(j) in community:
                 best_communities.append(i)
     best_communities = unique(best_communities)
-    print(best_communities)
+    # print(best_communities)
     return best_communities, communities, count_of_community
 
 
@@ -76,4 +76,5 @@ def influence_maximization(G, k):
                 best_gain = marginals[node]
         seeds.add(best_node)
         max_influence += best_gain
+        # print(max_influence)
     return seeds, max_influence

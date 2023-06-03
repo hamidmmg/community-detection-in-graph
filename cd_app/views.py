@@ -21,7 +21,6 @@ class CsvUploadView(APIView):
             num_of_best_nodes = file_serializer.data.get('num_of_best_nodes')
             file = str(file)
             file = file.replace("/", "", 1)
-            # comms, nom_of_communitys = leiden(file)
             community_svg_path = os.path.join(settings.BASE_DIR, 'images', 'myfile.svg')
             original_svg_path = os.path.join(settings.BASE_DIR, 'images', 'myfile_org.svg')
             best_nodes, community_with_best_nodes, comms, nom_of_communitys = calculate_best_nodes(file, num_of_best_nodes)
